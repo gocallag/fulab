@@ -1,4 +1,4 @@
-﻿// using System;
+﻿using System;
 using System.CommandLine;
 using System.CommandLine.Invocation;
 // using System.IO;
@@ -23,15 +23,22 @@ class Program
 
         var newlabdefnCommand = new Command("lab-defn", "create a new lab definition");
 
-        var newlabdefnOption = new Option<string>("--name", "the name of the lab definition") { IsRequired = true };
-        newlabdefnOption.AddAlias("-n");
-        newlabdefnCommand.Add(newlabdefnOption);
+        var newlabdefnnameOption = new Option<string>("--name", "the name of the lab definition") { IsRequired = true };
+        newlabdefnnameOption.AddAlias("-n");
+        newlabdefnCommand.Add(newlabdefnnameOption);
 
-        newlabdefnOption = new Option<string>("--service", "the service that provides the lab") { IsRequired = true };
-        newlabdefnOption.AddAlias("-s");
-        newlabdefnCommand.Add(newlabdefnOption);
+        var newlabdefnserviceOption = new Option<string>("--service", "the service that provides the lab") { IsRequired = true };
+        newlabdefnserviceOption.AddAlias("-s");
+        newlabdefnCommand.Add(newlabdefnserviceOption);
+        newlabdefnCommand.SetHandler((newlabdefnnameOptionValue, newlabdefnserviceOptionValue) =>
+                {
+                    Console.WriteLine($"name={newlabdefnnameOptionValue}, service={newlabdefnserviceOptionValue}");
+                },
+                newlabdefnnameOption, newlabdefnserviceOption);
 
         newsubCommand.Add(newlabdefnCommand);
+
+
 
         // ---
 
@@ -58,7 +65,7 @@ class Program
                     Console.WriteLine($"FULABLOCATION={globalstorageOptionValue}");
                 },
                 setglobalstoragelocationOption);
-  
+
         // ---
 
 
