@@ -16,9 +16,6 @@ class Program
 
         global = new Global(globalStorage);
 
-
-
-
         var fileOption = new Option<FileInfo?>(
             name: "--file",
             description: "The file to read and display on the console.");
@@ -58,8 +55,6 @@ class Program
                 newlabdefnnameOption, newlabdefnserviceOption);
 
         newsubCommand.Add(newlabdefnCommand);
-
-
 
         // ---
 
