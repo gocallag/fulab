@@ -45,7 +45,10 @@ class Program
                 {
                     if (globalStorage != null && globalStorage.Length != 0)
                     {
+
                         Console.WriteLine($"location={globalStorage},name={newlabdefnnameOptionValue}, service={newlabdefnserviceOptionValue}");
+                        var labdefn = new LabDefn(globalStorage,newlabdefnnameOptionValue,newlabdefnserviceOptionValue);
+                        labdefn.SaveObject();
                     }
                     else
                     {
