@@ -85,22 +85,7 @@ class Program
 
         // ---
 
-
-        // rootCommand.AddOption(fileOption);
-
-        // rootCommand.SetHandler((file) =>
-        //     {
-        //         ReadFile(file!);
-        //     },
-        //     fileOption);
-
         return await rootCommand.InvokeAsync(args);
-    }
-
-    static void ReadFile(FileInfo file)
-    {
-        File.ReadLines(file.FullName).ToList()
-            .ForEach(line => Console.WriteLine(line));
     }
 
     static bool testStorage(string gs)
