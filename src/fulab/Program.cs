@@ -3,13 +3,22 @@ using System.CommandLine;
 using System.CommandLine.Invocation;
 using System.IO;
 using System.Text;
+using System.Text.Json;
 namespace fulab;
 
 class Program
 {
     public static async Task<int> Main(params string[] args)
     {
-        var globalStorage = System.Environment.GetEnvironmentVariable("FULABLOCATION", EnvironmentVariableTarget.Process);
+        Global? global;
+
+        string? globalStorage = System.Environment.GetEnvironmentVariable("FULABLOCATION", EnvironmentVariableTarget.Process);
+
+        global = new Global(globalStorage);
+
+
+
+
         var fileOption = new Option<FileInfo?>(
             name: "--file",
             description: "The file to read and display on the console.");
@@ -74,6 +83,9 @@ class Program
                     if (testStorage(globalstorageOptionValue))
                     {
                         Console.WriteLine($"FULABLOCATION={globalstorageOptionValue}");
+                        global.GlobalStoragePath = globalstorageOptionValue;
+                        global.SaveObject();
+                        
                     }
                     else
                     {
@@ -103,9 +115,10 @@ class Program
             return true;
         }
 
-        catch (Exception ex)
+        catch (Exception)
         {
             return false;
         }
     }
+
 }
