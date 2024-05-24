@@ -8,6 +8,7 @@ class Program
 {
     public static async Task<int> Main(params string[] args)
     {
+        var globalStorage = System.Environment.GetEnvironmentVariable("FULABLOCATION", EnvironmentVariableTarget.Process);
         var fileOption = new Option<FileInfo?>(
             name: "--file",
             description: "The file to read and display on the console.");
@@ -32,7 +33,12 @@ class Program
         newlabdefnCommand.Add(newlabdefnserviceOption);
         newlabdefnCommand.SetHandler((newlabdefnnameOptionValue, newlabdefnserviceOptionValue) =>
                 {
-                    Console.WriteLine($"name={newlabdefnnameOptionValue}, service={newlabdefnserviceOptionValue}");
+                    if (globalStorage != null && globalStorage.Length != 0)
+                    {
+                        Console.WriteLine($"location={globalStorage},name={newlabdefnnameOptionValue}, service={newlabdefnserviceOptionValue}");
+                    } else {
+                        Console.WriteLine("global storage as not been set, please review usage of \"set global\"");
+                    }
                 },
                 newlabdefnnameOption, newlabdefnserviceOption);
 
