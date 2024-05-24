@@ -1,3 +1,4 @@
 .vscode/*
 src/fulab/bin/*
 src/fulab/obj/*
+src/fulab/test/*
