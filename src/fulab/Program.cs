@@ -1,7 +1,8 @@
 ﻿using System;
 using System.CommandLine;
 using System.CommandLine.Invocation;
-// using System.IO;
+using System.IO;
+using System.Text;
 namespace fulab;
 
 class Program
@@ -36,7 +37,9 @@ class Program
                     if (globalStorage != null && globalStorage.Length != 0)
                     {
                         Console.WriteLine($"location={globalStorage},name={newlabdefnnameOptionValue}, service={newlabdefnserviceOptionValue}");
-                    } else {
+                    }
+                    else
+                    {
                         Console.WriteLine("global storage as not been set, please review usage of \"set global\"");
                     }
                 },
@@ -68,7 +71,15 @@ class Program
         setglobalCommand.Add(setglobalstorageCommand);
         setglobalstorageCommand.SetHandler((globalstorageOptionValue) =>
                 {
-                    Console.WriteLine($"FULABLOCATION={globalstorageOptionValue}");
+                    if (testStorage(globalstorageOptionValue))
+                    {
+                        Console.WriteLine($"FULABLOCATION={globalstorageOptionValue}");
+                    }
+                    else
+                    {
+                        Console.Error.WriteLine($"Unable to write to global storage location {globalstorageOptionValue}");
+                        System.Environment.Exit(1);
+                    }
                 },
                 setglobalstoragelocationOption);
 
@@ -90,5 +101,26 @@ class Program
     {
         File.ReadLines(file.FullName).ToList()
             .ForEach(line => Console.WriteLine(line));
+    }
+
+    static bool testStorage(string gs)
+    {
+        if (gs == null || gs.Length == 0) return false;
+
+        try
+        {
+            // Create the file, or overwrite if the file exists.
+            using (FileStream fs = File.Create(gs + "/.test"))
+            {
+                byte[] info = new UTF8Encoding(true).GetBytes("Test FULAB write.");
+                fs.Write(info, 0, info.Length);
+            }
+            return true;
+        }
+
+        catch (Exception ex)
+        {
+            return false;
+        }
     }
 }
