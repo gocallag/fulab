@@ -44,7 +44,7 @@ class Program
                     {
 
                         Console.WriteLine($"location={globalStorage},name={newlabdefnnameOptionValue}, service={newlabdefnserviceOptionValue}");
-                        var labdefn = new LabDefn(globalStorage,newlabdefnnameOptionValue,newlabdefnserviceOptionValue);
+                        var labdefn = new LabDefn(globalStorage, newlabdefnnameOptionValue, newlabdefnserviceOptionValue);
                         labdefn.SaveObject();
                     }
                     else
@@ -55,6 +55,33 @@ class Program
                 newlabdefnnameOption, newlabdefnserviceOption);
 
         newsubCommand.Add(newlabdefnCommand);
+
+        // new service-defn
+
+        var newservicedefnCommand = new Command("service-defn", "create a new service definition");
+
+        var newservicedefnnameOption = new Option<string>("--name", "the name of the service definition") { IsRequired = true };
+        newservicedefnnameOption.AddAlias("-n");
+        newservicedefnCommand.Add(newservicedefnnameOption);
+
+        var newservicedefnhypervisorOption = new Option<string>("--hypervisor", "the hypervisor that provides the service") { IsRequired = true };
+        newservicedefnhypervisorOption.AddAlias("-h");
+        newservicedefnCommand.Add(newservicedefnhypervisorOption);
+        newservicedefnCommand.SetHandler((newservicedefnnameOptionValue, newservicedefnhypervisorOptionValue) =>
+                {
+                    if (globalStorage != null && globalStorage.Length != 0)
+                    {
+                        var servicedefn = new ServiceDefn(globalStorage, newservicedefnnameOptionValue, newservicedefnhypervisorOptionValue);
+                        servicedefn.SaveObject();
+                    }
+                    else
+                    {
+                        Console.WriteLine("global storage as not been set, please review usage of \"set global\"");
+                    }
+                },
+                newservicedefnnameOption, newservicedefnhypervisorOption);
+
+        newsubCommand.Add(newservicedefnCommand);
 
         // ---
 
@@ -83,7 +110,7 @@ class Program
                         Console.WriteLine($"FULABLOCATION={globalstorageOptionValue}");
                         global.GlobalStoragePath = globalstorageOptionValue;
                         global.SaveObject();
-                        
+
                     }
                     else
                     {
