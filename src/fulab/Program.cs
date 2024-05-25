@@ -67,11 +67,18 @@ class Program
         var newservicedefnhypervisorOption = new Option<string>("--hypervisor", "the hypervisor that provides the service") { IsRequired = true };
         newservicedefnhypervisorOption.AddAlias("-h");
         newservicedefnCommand.Add(newservicedefnhypervisorOption);
-        newservicedefnCommand.SetHandler((newservicedefnnameOptionValue, newservicedefnhypervisorOptionValue) =>
+        var newservicedefnhostOption = new Option<string>("--host", "the host hypervisor dns(or IP) that provides the service") { IsRequired = true };
+        newservicedefnCommand.Add(newservicedefnhostOption);
+        var newservicedefnportOption = new Option<int>("--port", "the host hypervisor winrm port that provides the service") { IsRequired = true };
+        newservicedefnCommand.Add(newservicedefnportOption);
+        var newservicedefninsecureOption = new Option<bool>("--insecure", "ignore winrm certificate check") { IsRequired = true };
+        newservicedefnCommand.Add(newservicedefninsecureOption);
+
+        newservicedefnCommand.SetHandler((newservicedefnnameOptionValue, newservicedefnhypervisorOptionValue,newservicedefnhostOptionValue,newservicedefnportOptionValue,newservicedefninsecureOptionValue) =>
                 {
                     if (globalStorage != null && globalStorage.Length != 0)
                     {
-                        var servicedefn = new ServiceDefn(globalStorage, newservicedefnnameOptionValue, newservicedefnhypervisorOptionValue);
+                        var servicedefn = new ServiceDefn(globalStorage, newservicedefnnameOptionValue, newservicedefnhypervisorOptionValue,newservicedefnhostOptionValue,newservicedefnportOptionValue,newservicedefninsecureOptionValue);
                         servicedefn.SaveObject();
                     }
                     else
@@ -79,7 +86,7 @@ class Program
                         Console.WriteLine("global storage as not been set, please review usage of \"set global\"");
                     }
                 },
-                newservicedefnnameOption, newservicedefnhypervisorOption);
+                newservicedefnnameOption, newservicedefnhypervisorOption,newservicedefnhostOption,newservicedefnportOption,newservicedefninsecureOption);
 
         newsubCommand.Add(newservicedefnCommand);
 
