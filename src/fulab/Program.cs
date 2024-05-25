@@ -64,14 +64,14 @@ class Program
         newservicedefnnameOption.AddAlias("-n");
         newservicedefnCommand.Add(newservicedefnnameOption);
 
-        var newservicedefnhypervisorOption = new Option<string>("--hypervisor", "the hypervisor that provides the service") { IsRequired = true };
+        var newservicedefnhypervisorOption = new Option<string>("--hypervisor", "the hypervisor that provides the service");
         newservicedefnhypervisorOption.AddAlias("-h");
         newservicedefnCommand.Add(newservicedefnhypervisorOption);
-        var newservicedefnhostOption = new Option<string>("--host", "the host hypervisor dns(or IP) that provides the service") { IsRequired = true };
+        var newservicedefnhostOption = new Option<string>("--host", "the host hypervisor dns(or IP) that provides the service");
         newservicedefnCommand.Add(newservicedefnhostOption);
-        var newservicedefnportOption = new Option<int>("--port", "the host hypervisor winrm port that provides the service") { IsRequired = true };
+        var newservicedefnportOption = new Option<int>("--port", "the host hypervisor winrm port that provides the service");
         newservicedefnCommand.Add(newservicedefnportOption);
-        var newservicedefninsecureOption = new Option<bool>("--insecure", "ignore winrm certificate check") { IsRequired = true };
+        var newservicedefninsecureOption = new Option<bool>("--insecure", "ignore winrm certificate check");
         newservicedefnCommand.Add(newservicedefninsecureOption);
 
         newservicedefnCommand.SetHandler((newservicedefnnameOptionValue, newservicedefnhypervisorOptionValue,newservicedefnhostOptionValue,newservicedefnportOptionValue,newservicedefninsecureOptionValue) =>
