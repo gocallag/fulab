@@ -4,7 +4,7 @@
 labName='TestLinux'
 
 eval `fulab set global storage -l /var/tmp/gs` && export FULABLOCATION
-fulab new service-defn -n HyperV-LAB --hypervisor HyperV
+fulab new service-defn -n HyperV-LAB --hypervisor HyperV --host LAB
 fulab new lab-defn -n $labName -service HyperV-LAB
 eval `fulab set current-lab $labName` && export FULABCURRENTLAB
 
